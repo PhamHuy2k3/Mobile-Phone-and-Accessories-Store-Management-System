@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Quản lý lương nhân viên</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+<body class="container mt-4">
+    <a href="/" class="btn btn-primary mb-3">Quay về trang chủ</a>
+    <h2 class="mb-4">Quản lý lương nhân viên</h2>
+    <a href="/luongnhanvien/them" class="btn btn-success mb-3">Thêm lương nhân viên</a>
+    <form class="row g-3 mb-4" method="get" action="/luongnhanvien">
+        <div class="col-md-3 col-6">
+            <select class="form-select" name="thang">
+                <option value="">-- Lọc theo tháng --</option>
+                <option th:each="t : ${dsThang}" th:value="${t}" th:text="${t}" th:selected="${param.thang} == ${t}"></option>
+            </select>
+        </div>
+        <div class="col-md-3 col-6">
+            <select class="form-select" name="vaiTro">
+                <option value="">-- Lọc theo vai trò --</option>
+                <option th:each="v : ${dsVaiTro}" th:value="${v}" th:text="${v}" th:selected="${param.vaiTro} == ${v}"></option>
+            </select>
+        </div>
+        <div class="col-md-3 col-6">
+            <input type="text" class="form-control" name="tuKhoa" placeholder="Tìm theo tên/mã NV" th:value="${param.tuKhoa}">
+        </div>
+        <div class="col-md-2 d-flex gap-1">
+            <button type="submit" class="btn btn-primary w-100">Lọc/Tìm kiếm</button>
+            <a href="/luongnhanvien" class="btn btn-secondary w-100">Làm mới</a>
+        </div>
+    </form>
+    <table class="table table-bordered table-hover align-middle">
+        <thead class="table-light">
+            <tr>
+                <th>Mã lương</th>
+                <th>Mã NV</th>
+                <th>Tháng</th>
+                <th>Lương cơ bản</th>
+                <th>Phụ cấp</th>
+                <th>Khấu trừ</th>
+                <th>Tổng lương</th>
+                <th>Hành động</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="luong : ${dsLuong}">
+                <td th:text="${luong.maLuong}"></td>
+                <td th:text="${luong.maNV}"></td>
+                <td th:text="${luong.thang}"></td>
+                <td th:text="${#numbers.formatDecimal(luong.luongCoBan, 0, 'COMMA', 0, 'POINT')}"></td>
+                <td th:text="${#numbers.formatDecimal(luong.phuCap, 0, 'COMMA', 0, 'POINT')}"></td>
+                <td th:text="${#numbers.formatDecimal(luong.khauTru, 0, 'COMMA', 0, 'POINT')}"></td>
+                <td th:text="${#numbers.formatDecimal(luong.tinhTongLuong(), 0, 'COMMA', 0, 'POINT')}"></td>
+                <td>
+                    <a th:href="@{'/luongnhanvien/sua/' + ${luong.maLuong}}" class="btn btn-warning btn-sm">Sửa</a>
+                    <a th:href="@{'/luongnhanvien/xoa/' + ${luong.maLuong}}" class="btn btn-danger btn-sm" onclick="return confirm('Bạn có chắc muốn xóa?')">Xóa</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Gợi ý nhập hàng</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" />
+    <style>
+        body {
+            background: linear-gradient(120deg, #f8fafc 0%, #e0e7ef 100%);
+        }
+        .main-card {
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+            padding: 32px 24px;
+            margin-top: 40px;
+        }
+        h2 {
+            color: #2d3a4b;
+            font-weight: 700;
+        }
+        .table th, .table td {
+            vertical-align: middle;
+        }
+        .table thead {
+            background: #f1f5f9;
+        }
+        .btn-secondary {
+            background: #64748b;
+            border: none;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="main-card">
+                <h2 class="mb-4">Gợi ý nhập hàng dựa trên doanh số</h2>
+                <a class="btn btn-secondary mb-3" th:href="@{/kho}"><i class="bi bi-arrow-left"></i> Quay lại kho</a>
+                <table class="table table-bordered table-hover align-middle">
+                    <thead>
+                    <tr>
+                        <th>Mã Sản Phẩm</th>
+                        <th>Số lượng nên nhập thêm</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="entry : ${suggestions}">
+                        <td th:text="${entry.key}"></td>
+                        <td th:text="${entry.value}"></td>
+                    </tr>
+                    </tbody>
+                </table>
+                <div th:if="${#lists.isEmpty(suggestions)}">
+                    <p class="text-success">Tồn kho hiện tại đã đủ, không cần nhập thêm!</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+</body>
+</html>

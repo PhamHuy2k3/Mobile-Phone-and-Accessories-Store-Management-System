@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Lương nhân viên bán hàng</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+<body class="container mt-4">
+    <h2 class="mb-4">Bảng lương nhân viên bán hàng</h2>
+    <table class="table table-bordered table-hover align-middle">
+        <thead class="table-light">
+            <tr>
+                <th>Mã NV</th>
+                <th>Họ tên</th>
+                <th>Hoa hồng</th>
+                <th>Lương cơ bản</th>
+                <th>Tổng lương</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="nv : ${dsBanHang}">
+                <td th:text="${nv.maNV}"></td>
+                <td th:text="${nv.hoTenNV}"></td>
+                <td th:text="${nv.hoaHong}"></td>
+                <td th:text="${luongCoBan}"></td>
+                <td th:text="${nv.tinhLuong(luongCoBan, 0)}"></td>
+            </tr>
+        </tbody>
+    </table>
+    <a href="/nhanvien" class="btn btn-secondary">Quay lại danh sách nhân viên</a>
+</body>
+</html>

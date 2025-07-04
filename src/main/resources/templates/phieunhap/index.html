@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Chi tiết phiếu nhập</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+<body class="container mt-4">
+    <h2>Chi tiết phiếu nhập</h2>
+    <a href="/" class="btn btn-secondary">Quay lại trang chủ</a>
+    <a th:href="@{kho}" class="btn btn-secondary m-2">Quay lại kho</a>
+    <a href="/phieunhap/them" class="btn btn-secondary m-2">Nhập hàng mới</a>
+    <table class="table table-bordered table-hover">
+        <thead>
+            <tr>
+                <th>Mã PN</th>
+                <th>Mã SP</th>
+                <th>Mã Kho</th>
+                <th>Số lượng</th>
+                <th>Đơn giá</th>
+                <th>Thao tác</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="pn : ${dsPhieuNhap}">
+                <td th:text="${pn.id.maPN}"></td>
+                <td th:text="${pn.id.maSP}"></td>
+                <td th:text="${pn.id.maKho}"></td>
+                <td th:text="${pn.soLuong}"></td>
+                <td th:text="${#numbers.formatDecimal(pn.donGia, 0, 'COMMA', 0, 'POINT')}"></td>
+                <td>
+                    <a th:href="@{'/phieunhap/xoa'(maPN=${pn.id.maPN},maSP=${pn.id.maSP},maKho=${pn.id.maKho})}" class="btn btn-danger btn-sm" onclick="return confirm('Xóa phiếu nhập này?')">Xóa</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>

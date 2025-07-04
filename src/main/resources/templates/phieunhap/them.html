@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Nhập hàng mới</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+<body class="container mt-4">
+    <h2>Nhập hàng mới</h2>
+    <form th:action="@{/phieunhap/luu}" th:object="${phieuNhap}" method="post">
+        <div class="mb-3">
+            <label class="form-label">Mã phiếu nhập</label>
+            <select th:field="*{id.maPN}" class="form-control" required>
+                <option th:each="pn : ${dsPhieuNhapTong}" th:value="${pn.maPN}" th:text="${pn.maPN}"></option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Mã sản phẩm</label>
+            <select th:field="*{id.maSP}" class="form-control" id="maSP" required onchange="capNhatDonGia()">
+                <option th:each="sp : ${dsSanPham}" th:value="${sp.maSP}" th:text="${sp.maSP + ' - ' + sp.tenSP}" th:data-dongia="${sp.donGia}"></option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Mã kho</label>
+            <input type="text" th:field="*{id.maKho}" class="form-control" required />
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Số lượng</label>
+            <input type="number" th:field="*{soLuong}" class="form-control" min="0" required />
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Đơn giá</label>
+            <input type="number" th:field="*{donGia}" class="form-control" min="0" step="0.01" required readonly id="donGia" th:value="${donGiaSanPham}" />
+        </div>
+        <button type="submit" class="btn btn-primary">Lưu</button>
+        <a href="/phieunhap" class="btn btn-secondary">Quay lại</a>
+    </form>
+    <script>
+        // Lấy đơn giá từ option được chọn và cập nhật vào input Đơn giá
+        function capNhatDonGia() {
+            var select = document.getElementById('maSP');
+            var donGiaInput = document.getElementById('donGia');
+            var selectedOption = select.options[select.selectedIndex];
+            var donGia = selectedOption.getAttribute('data-dongia');
+            donGiaInput.value = donGia ? donGia : '';
+        }
+        // Tự động cập nhật đơn giá khi load lại trang nếu đã chọn sản phẩm
+        window.onload = function() {
+            capNhatDonGia();
+        }
+    </script>
+</body>
+</html>

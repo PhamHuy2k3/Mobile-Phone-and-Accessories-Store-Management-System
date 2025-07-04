@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Danh sách nhân viên</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+<body class="container mt-4">
+    <a href="/" class="btn btn-primary mb-3">Quay về trang chủ</a>
+    <h2 class="mb-4">Danh sách nhân viên <span th:if="${loaiNV != null}" th:text="' - ' + ${loaiNV}"></span></h2>
+    <div class="mb-3">
+        <a href="/nhanvien/mv2" class="btn btn-outline-primary">Nhân viên bán hàng</a>
+        <a href="/nhanvien/mv3" class="btn btn-outline-success">Nhân viên kho</a>
+        <a href="/nhanvien/mv1" class="btn btn-outline-info">Quản lý</a>
+        <a href="/nhanvien" class="btn btn-outline-secondary">Tất cả</a>
+    </div>
+    <table class="table table-bordered table-hover align-middle">
+        <thead class="table-light">
+            <tr>
+                <th>Mã NV</th>
+                <th>Họ tên</th>
+                <th>Địa chỉ</th>
+                <th>Số điện thoại</th>
+                <th>Email</th>
+                <th>Vai trò</th>
+                <th th:if="${loai == 'mv2'}">Hoa hồng</th>
+                <th th:if="${loai == 'tatca'}">Phương thức đặc thù</th>
+                <th>Thao tác</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="nv : ${dsNhanVien}">
+                <td th:text="${nv.maNV}"></td>
+                <td th:text="${nv.hoTenNV}"></td>
+                <td th:text="${nv.diaChi}"></td>
+                <td th:text="${nv.soDienThoai}"></td>
+                <td th:text="${nv.email}"></td>
+                <td th:text="${nv.vaiTro}"></td>
+                <td th:if="${loai == 'mv2'}" th:text="${nv.hoaHong}"></td>
+                <td th:if="${loai == 'tatca'}">
+                    <span th:if="${nv.vaiTro == 'Nhân viên bán hàng'}" class="row">Tính lương + hoa hồng</span>
+                    <span th:if="${nv.vaiTro == 'Nhân viên kho'}" class="row">Tính lương + phụ cấp kho</span>
+                    <span th:if="${nv.vaiTro == 'Quản lý'}" class="row">Quản lý nhân viên</span>
+                </td>
+                <td>
+                    <a th:href="@{'/nhanvien/sua/' + ${nv.maNV}}" class="btn btn-primary btn-sm">Sửa</a>
+                    <a th:href="@{'/nhanvien/xoa/' + ${nv.maNV}}" class="btn btn-danger btn-sm" onclick="return confirm('Bạn có chắc muốn xóa?')">Xóa</a>
+                    <a th:href="@{'/luongnhanvien?tuKhoa=' + ${nv.maNV}}" class="btn btn-warning btn-sm ms-2">Bảng lương</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <a href="/nhanvien/them" class="btn btn-primary">Thêm nhân viên</a>
+</body>
+</html>

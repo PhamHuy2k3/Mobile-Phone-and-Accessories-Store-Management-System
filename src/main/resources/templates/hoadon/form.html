@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Thêm/Sửa hóa đơn</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+<body class="container mt-4">
+    <a href="/hoadon" class="btn btn-secondary mb-3">Quay về danh sách</a>
+    <h2 class="mb-4">Thêm/Sửa hóa đơn</h2>
+    <form th:action="@{/hoadon/luu}" th:object="${hoaDon}" method="post">
+        <div class="mb-3">
+            <label class="form-label">Mã hóa đơn</label>
+            <input type="text" class="form-control" th:field="*{maHD}" required readonly>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Khách hàng</label>
+            <select class="form-select" th:field="*{maKH}" required>
+                <option value="" disabled selected>-- Chọn khách hàng --</option>
+                <option th:each="kh : ${dsKhachHang}" th:value="${kh.maKH}" th:text="${kh.hoTenKH} + ' (' + ${kh.maKH} + ')'" th:selected="${kh.maKH == hoaDon.maKH}"></option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Nhân viên</label>
+            <select class="form-select" th:field="*{maNV}" required>
+                <option value="" disabled selected>-- Chọn nhân viên --</option>
+                <option th:each="nv : ${dsNhanVien}" th:value="${nv.maNV}" th:text="${nv.hoTenNV} + ' (' + ${nv.maNV} + ')'" th:selected="${nv.maNV == hoaDon.maNV}"></option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Ngày lập</label>
+            <input type="date" class="form-control" th:field="*{ngayLap}" required>
+        </div>
+        <!-- Tổng tiền được tính tự động, không nhập tay -->
+        <div class="mb-3">
+            <label class="form-label">Mã PTTT</label>
+            <input type="text" class="form-control" th:field="*{maPTTT}">
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Trạng thái</label>
+            <input type="text" class="form-control" th:field="*{trangThai}">
+        </div>
+        <button type="submit" class="btn btn-success">Lưu</button>
+    </form>
+</body>
+</html>
